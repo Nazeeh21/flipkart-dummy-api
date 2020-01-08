@@ -2,27 +2,38 @@ const router = require('express').Router()
 
 const Listing = require('../models/listing')
 
+const validateNewListingReq = require('../utility/validate').validateNewListingReq
+const checkForDuplicateListing = require('../utility/validate').checkForDuplicateListing
 const validateListing = require('../utility/validate').validateListing
 const validateUpdateReq = require('../utility/validate').validateUpdateReqBody
-const validatePriceUpdateReq = require('../utility/validate').validatePriceUpdateReq
 
 const updateValidReqFields = ['mrp', 'selling_price', 'stock_count', 'local_shipping_charge', 'zonal_shipping_charge', 'national_shipping_charge', 'listing_status', 'procurement_sla', 'procurement_type', 'actual_stock_count']
 const priceUpdateValidFields = ['skuId', 'mrp', 'selling_price']
 const inventoryUpdateValidFields = ['skuId', 'stock_count']
+const allValidFields = ['skuId', 'listingId', 'mrp', 'selling_price', 'stock_count', 'local_shipping_charge', 'zonal_shipping_charge', 'national_shipping_charge', 'listing_status', 'procurement_sla', 'procurement_type', 'actual_stock_count']
 
 // @type    POST/listings
 // @desc    To post new listing
 // @access  Public
 router.route('/').post(async(req, res) => {
-    //console.log(req)
 
     //TODO: Validate request
+    let validatedReq = await validateNewListingReq(req, allValidFields)
+
+    if(validatedReq.status === 'Failure') {
+        return res.status(400).json({status: 'Failure', reason: validatedReq.reason})
+    }
+
+    let duplicateCheck = await checkForDuplicateListing(req)
+
+    if(duplicateCheck.status === 'Failure') {
+        return res.status(511).json({status: 'Failure', reason: duplicateCheck.reason})
+    }
 
     const newListing = new Listing({
         ...req.body
     })
 
-    // console.log(newListing)
 
     // TODO: Validation
 
@@ -32,7 +43,6 @@ router.route('/').post(async(req, res) => {
         return res.status(400).json({status: 'Failure', reason: validatedObject.reason})
     }
 
-    console.log('exec')
     newListing.save()
         .then(listing => res.json({listing}))
         .catch(e => res.status(400).json({msg: 'Error.', code: e.code, error: e.errMsg}))
@@ -42,7 +52,7 @@ router.route('/').post(async(req, res) => {
 // @desc    Update product listing's price.
 // @access  Public
 router.route('/update/price').post(async(req, res) => {
-    const validatedReqObj = await validatePriceUpdateReq(req, priceUpdateValidFields)
+    const validatedReqObj = await validateUpdateReq(req, priceUpdateValidFields)
 
     if(validatedReqObj.status === 'Failure') {
         return res.status(400).json({status: validatedReqObj.status, reason: validatedReqObj.reason})
@@ -82,7 +92,7 @@ router.route('/update/price').post(async(req, res) => {
 // @desc    Update product listing's price.
 // @access  Public
 router.route('/update/inventory').post(async(req, res) => {
-    const validatedReqObj = await validatePriceUpdateReq(req, inventoryUpdateValidFields)
+    const validatedReqObj = await validateUpdateReq(req, inventoryUpdateValidFields)
 
     if(validatedReqObj.status === 'Failure') {
         return res.status(400).json({status: validatedReqObj.status, reason: validatedReqObj.reason})
