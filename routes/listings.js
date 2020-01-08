@@ -7,7 +7,7 @@ const validateListing = require('../utility/validate').validateListing
 // @type    POST/listings
 // @desc    To post new listing
 // @access  Public
-router.route('/').post((req, res) => {
+router.route('/').post(async(req, res) => {
     //console.log(req)
 
     const newListing = new Listing({
@@ -18,10 +18,10 @@ router.route('/').post((req, res) => {
 
     // TODO: Validation
 
-    const validateObject = validateListing(newListing)
+    const validatedObject = await validateListing(newListing)
 
-    if(validateObject.status === 'Failure') {
-        return res.status(400).json({status: 'Failure', reason: validateObject.reason})
+    if(validatedObject.status === 'Failure') {
+        return res.status(400).json({status: 'Failure', reason: validatedObject.reason})
     }
 
     console.log('exec')
@@ -43,6 +43,13 @@ router.route('/update/:sku').post(async(req, res) => {
     if(!listing) {
         return res.status(400).json({status: 'Failure', reason: 'Invalid skuId'})
     } else {
+        const validatedObject = await validateListing(listing)
+
+        if(validatedObject.status === 'Failure') {
+            return res.status(400).json({status: 'Failure', reason: validatedObject.reason})
+        }
+
+
         listing.save()
             .then(listing => {
                 return res.json({status: 'Success', ...listing})
