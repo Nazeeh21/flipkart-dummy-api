@@ -16,6 +16,8 @@ const inventoryUpdateValidFields = ['skuId', 'stock_count']
 router.route('/').post(async(req, res) => {
     //console.log(req)
 
+    //TODO: Validate request
+
     const newListing = new Listing({
         ...req.body
     })
