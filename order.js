@@ -1,7 +1,7 @@
 const mongoose = required("mongoose")
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
-const listingSchema = new Schema({
+const orderSchema = new Schema({
     orderId:{
         type: Number,
         required: true
@@ -50,3 +50,5 @@ const listingSchema = new Schema({
     
 
 })
+
+module.exports = mongoose.model('order', orderSchema)
