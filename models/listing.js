@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 const listingSchema = new Schema({
     listingId: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     skuId: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     mrp: {
         type: Number,
@@ -54,10 +56,6 @@ const listingSchema = new Schema({
         required: true
     },
     actual_stock_count: {
-        type: Number,
-        required: true
-    },
-    stock_count: {
         type: Number,
         required: true
     }
