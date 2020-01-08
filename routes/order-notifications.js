@@ -9,6 +9,10 @@ router.route('/').post(async(req, res) => {
     switch(req.body.eventType) {
         case 'shipment_created':
             //TODO: Ensure deep copy of arrays
+            // const orderItems = [
+            //     ...req.body.orderItems
+            // ]
+
             const newShipment = new Shipment({
                 shipmentId: req.body.shipmentId,
                 orderItems: req.body.orderItems,
