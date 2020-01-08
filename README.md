@@ -10,7 +10,7 @@ To test the API,
 
 The server will run on localhost:4000.
 
-(Note: You need to have Mongo installed and running to be able to successfully test the API.)
+(Note: You need to have MongoDB installed and running to be able to successfully test the API.)
 
 ## Available routes
 
