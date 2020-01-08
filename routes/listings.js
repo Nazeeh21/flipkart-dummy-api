@@ -3,6 +3,7 @@ const router = require('express').Router()
 const Listing = require('../models/listing')
 
 const validateListing = require('../utility/validate').validateListing
+const validateUpdateReq = require('../utility/validate').validateUpdateReqBody
 
 // @type    POST/listings
 // @desc    To post new listing
@@ -38,8 +39,14 @@ router.route('/update/:sku').post(async(req, res) => {
     skuId = req.params.sku
 
     let filter = {skuId}
-    
+        
     //TODO: Validate req body
+    const validatedReq = validateUpdateReq(req)
+    
+    if(validatedReq.status === 'Failure') {
+        return res.status(400).json({status: validatedReq.status, reason: validatedReq.reason})
+    }
+
     let update = { ...req.body }
 
     let listing = await Listing.findOneAndUpdate(filter, update, {
@@ -74,7 +81,13 @@ router.route('/:sku').get(async(req, res) => {
 
     let filter = { skuId }
 
-    
+    let listing = await Listing.findOne(filter)
+
+    if(!listing) {
+        return res.status(400).json({status: 'Failure', reason: 'Invalid SKU ID'})
+    } else {
+        return res.json({status: 'Success', listing})
+    }
 })
 
 module.exports = router

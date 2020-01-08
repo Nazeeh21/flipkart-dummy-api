@@ -41,7 +41,12 @@ module.exports = {
     
     validateUpdateReqBody: (req) => {
         // Validates the request body for listing update request
+        for(let field in req.body) {
+            if(!updateValidReqFields.includes(field)) {
+                return {status: 'Failure', reason: 'Bad request'}
+            }
+        }
 
-
+        return {status: 'Success'}
     }
 }
