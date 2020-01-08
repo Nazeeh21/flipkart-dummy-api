@@ -10,6 +10,8 @@ To test the API,
 
 The server will run on localhost:4000.
 
+(Note: You need to have MongoDB installed and running to be able to successfully test the API.)
+
 ## Available routes
 
 1. POST **/listings**
