@@ -1,3 +1,5 @@
+const updateValidReqFields = ['mrp', 'selling_price', 'stock_count', 'local_shipping_charge', 'zonal_shipping_charge', 'national_shipping_charge', 'listing_status', 'procurement_sla', 'procurement_type', 'actual_stock_count']
+
 module.exports = {
     validateListing: (listing) => {
         // TODO: Validation
