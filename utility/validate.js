@@ -41,5 +41,7 @@ module.exports = {
         // Validates the request body for listing update request
 
 
-    }
+    },
+
+    //TODO: Validate req params
 }

@@ -34,6 +34,7 @@ router.route('/').post(async(req, res) => {
 // @desc    To update a listing using skuID
 // @access  Public
 router.route('/update/:sku').post(async(req, res) => {
+    //TODO: Validate req params
     skuId = req.params.sku
 
     let filter = {skuId}
@@ -63,6 +64,17 @@ router.route('/update/:sku').post(async(req, res) => {
                 return res.status(500).json({status: 'Failure', reason: 'Server-side error.'})
             })
     }
+})
+
+// @type    GET/listings/{:sku}
+// @desc    Retrieve the information listed against the provided SKU Id
+// @access  Public
+router.route('/:sku').get(async(req, res) => {
+    const skuId = req.params.sku
+
+    let filter = { skuId }
+
+    
 })
 
 module.exports = router
