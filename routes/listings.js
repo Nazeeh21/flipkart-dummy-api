@@ -30,10 +30,15 @@ router.route('/').post(async(req, res) => {
         .catch(e => res.status(400).json({msg: 'Error.', code: e.code, error: e.errMsg}))
 })
 
+// @type    POST/listings/update/:sku
+// @desc    To update a listing using skuID
+// @access  Public
 router.route('/update/:sku').post(async(req, res) => {
     skuId = req.params.sku
 
     let filter = {skuId}
+    
+    //TODO: Validate req body
     let update = { ...req.body }
 
     let listing = await Listing.findOneAndUpdate(filter, update, {

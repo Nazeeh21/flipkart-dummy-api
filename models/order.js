@@ -1,3 +1,5 @@
+// TODO: Verify this file
+
 const mongoose = required("mongoose")
 const Schema = mongoose.Schema
 
@@ -46,9 +48,7 @@ const orderSchema = new Schema({
     serialNumbers:{
         type: Number,
         required: true
-    },
-    
-
+    }
 })
 
 module.exports = mongoose.model('order', orderSchema)

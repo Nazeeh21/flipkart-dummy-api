@@ -1,8 +1,8 @@
-// Returns an object with a status and a reason
-
 module.exports = {
     validateListing: (listing) => {
         // TODO: Validation
+
+        // Returns an object with a status and a reason
 
         // Verify selling amount
         if(listing.selling_price > listing.mrp) {
@@ -35,5 +35,11 @@ module.exports = {
         }
 
         return {status: 'Success'}
+    }, 
+    
+    validateUpdateReqBody: (req) => {
+        // Validates the request body for listing update request
+
+
     }
 }
