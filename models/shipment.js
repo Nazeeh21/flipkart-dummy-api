@@ -8,7 +8,7 @@ const shipmentSchema = new Schema({
         unique: true
     },
     orderItems: {
-        type: Object,
+        type: Array,
         required: true
     },
     locationId: {
@@ -20,13 +20,25 @@ const shipmentSchema = new Schema({
         required: true
     },
     forms: {
-        type: Object,
+        type: Array,
         required: true
     },
     subShipments: {
-        type: Object,
+        type: Array,
         required: false
-    }
+    },
+    timestamp: {
+        type: Date,
+        required: true
+    },
+    updatedAt: {
+        type: Date,
+        required: false
+    },
+    hold: {
+        type: Boolean,
+        required: true
+    },
 })
 
 module.exports = mongoose.model('shipment', shipmentSchema)
