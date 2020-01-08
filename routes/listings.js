@@ -8,6 +8,7 @@ const validatePriceUpdateReq = require('../utility/validate').validatePriceUpdat
 
 const updateValidReqFields = ['mrp', 'selling_price', 'stock_count', 'local_shipping_charge', 'zonal_shipping_charge', 'national_shipping_charge', 'listing_status', 'procurement_sla', 'procurement_type', 'actual_stock_count']
 const priceUpdateValidFields = ['skuId', 'mrp', 'selling_price']
+const inventoryUpdateValidFields = ['skuId', 'stock_count']
 
 // @type    POST/listings
 // @desc    To post new listing
@@ -41,8 +42,45 @@ router.route('/').post(async(req, res) => {
 router.route('/update/price').post(async(req, res) => {
     const validatedReqObj = await validatePriceUpdateReq(req, priceUpdateValidFields)
 
-    console.log(req.body)
-    console.log(validatedReqObj)
+    if(validatedReqObj.status === 'Failure') {
+        return res.status(400).json({status: validatedReqObj.status, reason: validatedReqObj.reason})
+    }
+
+    let skuId = req.body.skuId
+
+    let filter = { skuId }
+
+    let update = { ...req.body }
+
+    let listing = await Listing.findOneAndUpdate(filter, update, {
+        new: true
+    })
+
+    if(!listing) {
+        return res.status(400).json({status: 'Failure', reason: 'Invalid skuId'})
+    } else {
+        const validatedObject = await validateListing(listing)
+
+        if(validatedObject.status === 'Failure') {
+            return res.status(400).json({status: 'Failure', reason: validatedObject.reason})
+        }
+
+
+        listing.save()
+            .then(listing => {
+                return res.json({status: 'Success', ...listing})
+            })
+            .catch(e => {
+                return res.status(500).json({status: 'Failure', reason: 'Server-side error.'})
+            })
+    }
+})
+
+// @type    POST/listings/update/price
+// @desc    Update product listing's price.
+// @access  Public
+router.route('/update/inventory').post(async(req, res) => {
+    const validatedReqObj = await validatePriceUpdateReq(req, inventoryUpdateValidFields)
 
     if(validatedReqObj.status === 'Failure') {
         return res.status(400).json({status: validatedReqObj.status, reason: validatedReqObj.reason})
