@@ -1,5 +1,3 @@
-const updateValidReqFields = ['mrp', 'selling_price', 'stock_count', 'local_shipping_charge', 'zonal_shipping_charge', 'national_shipping_charge', 'listing_status', 'procurement_sla', 'procurement_type', 'actual_stock_count']
-
 module.exports = {
     validateListing: (listing) => {
         // TODO: Validation
@@ -39,10 +37,21 @@ module.exports = {
         return {status: 'Success'}
     }, 
     
-    validateUpdateReqBody: (req) => {
+    validateUpdateReqBody: (req, validFields) => {
         // Validates the request body for listing update request
         for(let field in req.body) {
-            if(!updateValidReqFields.includes(field)) {
+            if(!validFields.includes(field)) {
+                return {status: 'Failure', reason: 'Bad request'}
+            }
+        }
+
+        return {status: 'Success'}
+    },
+
+    validatePriceUpdateReq: (req, validFields) => {
+        // Validates the request body for listing price update request
+        for(let field in req.body) {
+            if(!validFields.includes(field)) {
                 return {status: 'Failure', reason: 'Bad request'}
             }
         }
