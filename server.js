@@ -12,8 +12,10 @@ mongoose.connect('mongodb://localhost:27017/hackathonLocalDB', {useNewUrlParser:
 
 // Routes
 const listingsRouter = require('./routes/listings')
+const orderNotificationsRouter = require('./routes/order-notifications')
 
 app.use('/listings', listingsRouter)
+app.use('/order-notifications', orderNotificationsRouter)
 
 // Port declaration
 let port = process.env.PORT || 4000

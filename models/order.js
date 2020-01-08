@@ -1,12 +1,11 @@
-// TODO: Verify this file
-
-const mongoose = required("mongoose")
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const orderSchema = new Schema({
-    orderId:{
+    orderID:{
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     orderItemId:{
         type: Number,
@@ -14,7 +13,7 @@ const orderSchema = new Schema({
     },
     subItem:{
         type: String,
-        required: true
+        required: false
     },
     orderDate:{
         type: Date,
@@ -32,21 +31,16 @@ const orderSchema = new Schema({
         type: Number,
         required: true
     },
-    hasMore:{
-        type: Boolean,
-        required: true
-    },
-    url:{
-        type: String,
-        required: true
-    },
-    
     FSN:{
+        type: Number,
         required: true
     },
-    
     serialNumbers:{
         type: Number,
+        required: false
+    },
+    paymentType: {
+        type: String,
         required: true
     }
 })

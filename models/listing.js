@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
+    // username: {
+
+    // },
+
     listingId: {
         type: Number,
         required: true,
