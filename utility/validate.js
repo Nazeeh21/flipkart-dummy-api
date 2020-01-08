@@ -46,16 +46,5 @@ module.exports = {
         }
 
         return {status: 'Success'}
-    },
-
-    validatePriceUpdateReq: (req, validFields) => {
-        // Validates the request body for listing price update request
-        for(let field in req.body) {
-            if(!validFields.includes(field)) {
-                return {status: 'Failure', reason: 'Bad request'}
-            }
-        }
-
-        return {status: 'Success'}
     }
 }
