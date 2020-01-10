@@ -85,7 +85,7 @@ module.exports = {
         } else {
             return {status: 'Success'}
         }
-    }
+    },
 
-    // TODO: Validation for shipments
+    // TODO: Improve request verification
 }
