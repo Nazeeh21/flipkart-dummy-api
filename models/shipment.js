@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const shipmentSchema = new Schema({
     shipmentId: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
@@ -12,7 +12,7 @@ const shipmentSchema = new Schema({
         required: true
     },
     locationId: {
-        type: Number,
+        type: String,
         required: true
     },
     dispatchByDate:{
@@ -39,6 +39,11 @@ const shipmentSchema = new Schema({
         type: Boolean,
         required: true
     },
+    //TODO: Packed, ??
+    status: {
+        type: String,
+        required: false
+    }
 })
 
 module.exports = mongoose.model('shipment', shipmentSchema)
